@@ -1,0 +1,10 @@
+<template name="nav">
+  <header class="bar bar-nav">
+    <a class="icon icon-left-nav pull-left" href="/">Back</a>
+    {{#if currentUser}}
+      <a class="icon icon-compose pull-right" href="/settings"></a>
+    {{/if}}
+    <h1 class = "title">ReThrive</h1>
+    {{> loginButtons}}
+  </header>
+</template>

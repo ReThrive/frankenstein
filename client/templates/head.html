@@ -1,0 +1,30 @@
+<template name="settings">
+  {{> nav}}
+  <div class="content">
+    {{> filterForm}}
+    {{> showFilters}}
+  </div>
+</template>
+
+<template name="filterForm">
+  <div>
+    <form>
+      <input type="text" placeholder="Filters" name="filters">
+      <button class="btn" type="submit">Add Filters</button>
+    </form>
+  </div>
+</template>
+
+<template name="showFilters">
+  <div>
+    <ul class="table-view">
+      {{#each userFilters}}
+      <li class="table-view-cell">
+          <!--lists the current cell of the userFilters array-->
+          {{this}}
+          <button class="btn remove-filter">Remove</button>
+      </li>
+      {{/each}}
+    </ul>
+  </div>
+</template>
