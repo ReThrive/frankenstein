@@ -1,61 +1,33 @@
 <template name="home">
     {{> nav}}
   <div class ="content">
-    {{#if currentUser}}
     {{> feed}}
-    {{> addpostForm}}
-    {{/if}}
   </div>
 </template>
 
 <template name="feed">
   <ul class="table-view">
-    {{#each post}}
-    <div class="card">
+    {{#each user}}
+    <div class="card" id="{{username}}">
       <li class="table-view-cell media">
         <a class="navigate-right">
           <img class="media-object pull-left" src="http://placehold.it/42x42">
           <div class="media-body">
-            <h2>{{createdBy}} </h2>
-            <p>{{content}}</p>
-            <h6>Tags: {{tags}}</h6>
-            <br>
-            {{#if creator}}
-            <button class="btn remove-post"> Remove Post </button>
-            {{/if}}
-            {{> commentForm}}
+            <h4>{{profile.fullName}}</h4>
+            <p>Age: {{profile.age}}<br>
+              Date of stroke: {{profile.strokeDate}}<br>
+              Type of stroke: {{profile.strokeType}}</p>
           </div>
         </a>
       </li>
     </div>
-    {{#each comment}}
-    <div class="card indented">
-      <h3> {{createdBy}} </h3>
-      <p>{{content}}</p>
-      {{#if commentAdmin}}
-        <button class="btn remove-comment"> Remove Comment </button>
-      {{/if}}
-    </div>
-    {{/each}}
     {{/each}}
   </ul>
 </template>
 
-<template name="addpostForm">
-  <div>
-    <form>
-      <textarea rows="5" placeholder="Write something.." name="postContent"></textarea>
-      <input type="text" placeholder="Tags" name="postTags">
-      <button class="btn" type="submit" >Add post</button>
-    </form>
-  </div>
-</template>
 
-<template name="commentForm">
-  <div>
-    <form>
-      <input type="text" placeholder="Write a comment" name="commentContent">
-      <button class="btn" type="submit" >Add Comment</button>
-    </form>
-  </div>
+<template name="userProfile">
+  <!-- profile object is sent to this template from the /u/:username route in router.js -->
+  {{profile.fullName}}
+  {{profile.age}}
 </template>

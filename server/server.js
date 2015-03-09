@@ -1,65 +1,23 @@
-  Meteor.publish('posts_subscription', function(){
-    var user = Meteor.users.findOne({_id: this.userId});
-    var filters = user.profile.filters;
-    if(filters.length == 0){
-      return postsList.find();
-    }
-    else{
-      return postsList.find({tags: {$elemMatch: {$in: filters}}});
-    }
-  })
-
-  Meteor.publish('comments_subscription', function(){
-    return commentsList.find();
-  })
-/*
-  Meteor.publish('allposts', function(){
-    return postsList.find();
-  });
-
-  Meteor.publish('filteredposts', function(){
-    var user = Meteor.users.findOne(this.userId);
-    var filters = user.profile.filters;
-    return postsList.find({tags: {$elemMatch: {$in: filters}}});
-  });
-*/
+Meteor.publish('users', function () {
+  return Meteor.users.find({}, {fields: {emails: 1, profile: 1}});
+});
 
 
-//Helper methods for FEED EVENTS
   Meteor.methods({
-    'insertpost': function(postContentVar, tags){
-      // Returns the userid of the currently logged in user
-      var currentUser = Meteor.user().username;
-
-      // Insert the new post into the collection
-      // createdBy is the current user's case sensitive username
-      postsList.insert({
-        content: postContentVar,
-        dateCreated: Date.now(),
-        createdBy: currentUser,
-        tags: tags
-      });
-    },
-
-    'removepost': function(selectedpost){
-      // Remove a document from the collection
-      postsList.remove(selectedpost);
-    },
-
-    'insertComment': function(commentContentVar, parentPost){
-      var currentUser = Meteor.user().username;
-
-      commentsList.insert({
-        content: commentContentVar,
-        dateCreated: Date.now(),
-        createdBy: currentUser,
-        parentPostId: parentPost
-      });
-    },
-
-    'removecomment': function(selectedpost){
-      // Remove a document from the collection
-      commentsList.remove(selectedpost);
+//Helper method for user profile bits
+//Adds each attribute to the user profile, if it is available.
+//The data here comes from the form in the settings page
+    'addAttribute':function(fullName, age, strokeDate, strokeType){
+      if(fullName){
+        Meteor.users.update({_id: this.userId}, {$set: {'profile.fullName': fullName}});}
+      if(age){
+        Meteor.users.update({_id: this.userId}, {$set: {'profile.age': age}});}
+      if(strokeDate){
+        Meteor.users.update({_id: this.userId}, {$set: {'profile.strokeDate': strokeDate}});}
+      if(strokeType){
+        Meteor.users.update({_id: this.userId}, {$set: {'profile.strokeType': strokeType}});}
+      if(!Meteor.user().profile.profileComplete){
+        Meteor.users.update({_id: this.userId}, {$set: {'profile.profileComplete': 1}});}
     },
 
 //Helper method for FILTER events

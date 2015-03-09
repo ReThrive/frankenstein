@@ -1,0 +1,35 @@
+<template name="settings">
+  {{> nav}}
+  <div class="content">
+    <!--if not completed, then show form. if completed then show profile-->
+    {{> profileForm}}
+    {{> showProfile}}
+  </div><!--class="content"-->
+</template>
+
+<template name="profileForm">
+  <div>
+    <form>
+      <input type="text" placeholder="Full Name" name="fullName">
+      <input type="text" placeholder="Age" name="age">
+      <input type="text" placeholder="Date of Stroke (dd/mm/yy)" name="strokeDate">
+      <input type="text" placeholder="Type of Stroke" name="strokeType">
+
+      <button class="btn" type="submit">Save</button>
+    </form>
+  </div>
+</template>
+
+<template name="showProfile">
+  <div>
+    <ul class="table-view">
+      {{#each userFilters}}
+      <li class="table-view-cell">
+          <!--lists the current cell of the userFilters array-->
+          {{this}}
+          <button class="btn remove-filter">Remove</button>
+      </li>
+      {{/each}}
+    </ul>
+  </div>
+</template>
